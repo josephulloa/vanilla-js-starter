@@ -1,8 +1,17 @@
-import { postData, deleteData } from "../src/API.js";
+import { postData, deleteData, getData } from "../src/API.js";
 
 const ul = document.querySelector("#lista");
 const nada = document.querySelector(".vacio");
 let contador = document.querySelector("#contador");
+let datos=getData()
+
+console.log(datos)
+
+function imprimirDatos() {
+  
+}
+
+console.log("MESAJE DATOS",datos)
 
 //INPUT VALUE //
 export function validar() {
@@ -25,13 +34,17 @@ export async function addTask() {
 
   let task = { task: text };
   let resultado = await postData(task);
-  // li.id = resultado.id;
-  console.log(resultado.id);
+  li.id = resultado.id;
+  console.log(resultado);
 
   li.appendChild(check());
   li.appendChild(p);
   li.appendChild(botonBorrar());
   ul.appendChild(li);
+  
+  // let datos= {getData: ul}
+  
+
 
   document.getElementById("ingresar").value = "";
   nada.style.display = "none";
@@ -66,15 +79,11 @@ function botonBorrar() {
 
     ul.removeChild(item);
 
-    console.log(item.id);
-
     deleteData(item.id);
 
-    let cosa = ul.querySelectorAll("li");
+    let items = ul.querySelectorAll("li");
 
-    console.log(cosa);
-
-    if (cosa.length === 0) {
+    if (items.length === 0) {
       nada.style.display = "block";
     }
   });
@@ -93,12 +102,12 @@ function incrementarContador(isChecked) {
 }
 
 export function addItem(e) {
-  console.log(e.code);
   if (e.code == "Enter") {
     validar();
   }
 }
 
+//NOT SAVE THE SAME TASK
 function emptyValue() {
   let listaTareas = document.querySelectorAll(".tarea");
 
@@ -112,15 +121,30 @@ function emptyValue() {
   return false;
 }
 
-// function obtenerUsuarios() {
-//     fetch("http://localhost:3000/users")
-//       .then((respuesta) => respuesta.json())
-//       .then((data) => {
-//         console.log("lista de usuarios", data);
-//       })
-//       .catch((error) => {
-//         console.log("Error no hay lsta", error);
-//       });
-//   }
+// async function getTaks() {
+//  fetch("http://localhost:3000/api/task/")
+//  .then(function (response) {
+//  console.log(response)
+//  }) 
+
+
+
+// }
+
+
+
+
+
+
+// function obtenertareas() {
+//   obtenertareas()
+//     .then((task) => {
+//       listaTareas = task;
+//       console.log("exitoso");
+//     })
+//     .catch((error) => {
+//       console.log("error");
+//     });
+// }
 
 export const ingresar = document.querySelector("#ingresar");

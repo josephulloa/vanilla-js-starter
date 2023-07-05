@@ -1,28 +1,8 @@
 export async function getTasks() {
-  const response =  fetch("http://localhost:3000/api/task/");
-
-  const tasks =  response.json();
-
-   
+  const response = await fetch("http://localhost:3000/api/task/");
+  const tasks = await response.json();
   return tasks;
 }
-
-// export async function postData(url = "http://localhost:3000/api/task", task) {
-//   const response = await fetch(url, {
-//     method: "POST",
-//     mode: "cors",
-//     cache: "no-cache",
-//     credentials: "same-origin",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     redirect: "follow",
-//     referrerPolicy: "no-referrer",
-//     body: JSON.stringify(task),
-//   });
-//   console.log(data);
-//   return response.json();
-// }
 
 export async function postData(task) {
   const response = await fetch("http://localhost:3000/api/task/", {
@@ -33,41 +13,25 @@ export async function postData(task) {
     },
     body: JSON.stringify(task),
   });
+  return await response.json();
 }
 
-async function getData(url = "http://localhost:3000/api/task/", data = {}) {
-  const response = await fetch(url, {
-    method: "GET",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
-
-async function putData(
-  url = "http://localhost:3000/api/task/<task_id>",
-  data = {}
-) {
-  const response = await fetch(url, {
-    method: "PUT",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-    body: JSON.stringify(data),
-  });
-  return response.json();
+export async function getData() {
+	const response = await fetch(
+		'http://localhost:3000/api/task/',
+		{
+			method: 'GET',
+			headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+			}
+		}
+	);
+	if (!response.ok) {
+		throw new Error(`HTTP error! status: ${response.status}`);
+	}
+	const data = await response.json();
+  return await data
 }
 
 export async function deleteData(id) {
@@ -81,36 +45,27 @@ export async function deleteData(id) {
     },
     redirect: "follow",
     referrerPolicy: "no-referrer",
-    body: JSON.stringify(id),
   });
-  return response.json();
+  return await response.json();
 }
 
-// export function PostM() {
-//   fetch("http://localhost:3000/api/task", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({}),
-//   })
-//     .then((response) => response.json())
-//     .then((data) => {})
-//     .catch((error) => {});
-// }
 
-// const url = "http://localhost:3000/api/task" ;
 
-// const Post = (method= "post", data) => ({
-//     method : method,
+// async function putData(
+//   url = "http://localhost:3000/api/task/<task_id>",
+//   data = {}
+// ) {
+//   const response = await fetch(url, {
+//     method: "PUT",
 //     mode: "cors",
 //     cache: "no-cache",
-//     Credentials: "same-origin",
+//     credentials: "same-origin",
 //     headers: {
-//         "Content-Type": "application/json",
+//       "Content-Type": "application/json",
 //     },
 //     redirect: "follow",
 //     referrerPolicy: "no-referrer",
 //     body: JSON.stringify(data),
-
-// });
+//   });
+//   return response.json();
+// }

@@ -6,10 +6,7 @@ btn.addEventListener("click", validar);
 ingresar.addEventListener("keypress", addItem);
 
 
-
-let get = getTasks()
-
-console.log(get)
+let get = await getTasks()
 
 let valores= JSON.stringify(get)
 
