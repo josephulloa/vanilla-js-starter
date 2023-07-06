@@ -1,17 +1,29 @@
-import { postData, deleteData, getData } from "../src/API.js";
+import { postData, deleteData, getData, updateData } from "../src/API.js";
 
 const ul = document.querySelector("#lista");
 const nada = document.querySelector(".vacio");
 let contador = document.querySelector("#contador");
-let datos=getData()
+let datos = await getData();
 
-console.log(datos)
+datos?.forEach((element) => {
+  let text = element.task;
+  let li = document.createElement("li");
+  li.classList.add("tarea");
+  let p = document.createElement("p");
+  p.textContent = text;
+  li.id = element.id;
 
-function imprimirDatos() {
-  
+  li.appendChild(check(element));
+  li.appendChild(p);
+  li.appendChild(botonBorrar());
+  ul.appendChild(li);
+});
+
+//update task
+async function updateTask(id, isChecked) {
+  let checked = { checked: isChecked };
+  let check = await updateData(id, checked);
 }
-
-console.log("MESAJE DATOS",datos)
 
 //INPUT VALUE //
 export function validar() {
@@ -32,33 +44,34 @@ export async function addTask() {
   let p = document.createElement("p");
   p.textContent = text;
 
-  let task = { task: text };
+  let task = { task: text, };
   let resultado = await postData(task);
   li.id = resultado.id;
-  console.log(resultado);
 
-  li.appendChild(check());
+  li.appendChild(check(resultado.id));
   li.appendChild(p);
   li.appendChild(botonBorrar());
   ul.appendChild(li);
-  
-  // let datos= {getData: ul}
-  
 
+  // let datos= {getData: ul}
 
   document.getElementById("ingresar").value = "";
   nada.style.display = "none";
 }
+
 //CHECK LIST CHECK DONE//
-function check() {
+function check(id) {
   let checkbox = document.createElement("input");
+  checkbox.checked= false
   checkbox.className = "check";
   checkbox.setAttribute("type", "checkbox");
   checkbox.addEventListener("click", function (e) {
-    incrementarContador(e.target.checked);
+    incrementarContador(e?.target?.checked);
+    updateTask(id, e?.target?.checked);
   });
   return checkbox;
 }
+
 //ERASER BUTTON //
 function botonBorrar() {
   const borrar = document.createElement("i");
@@ -71,9 +84,7 @@ function botonBorrar() {
     // const valido = item.querySelector(".check");
     if (valido.checked) {
       let cuenta = Number(contador.textContent);
-
-      resta = cuenta;
-      resta = resta - 1;
+      let resta = cuenta - 1;
       contador.innerHTML = resta;
     }
 
@@ -125,16 +136,9 @@ function emptyValue() {
 //  fetch("http://localhost:3000/api/task/")
 //  .then(function (response) {
 //  console.log(response)
-//  }) 
-
-
+//  })
 
 // }
-
-
-
-
-
 
 // function obtenertareas() {
 //   obtenertareas()
@@ -146,5 +150,7 @@ function emptyValue() {
 //       console.log("error");
 //     });
 // }
+
+// run add task when load page
 
 export const ingresar = document.querySelector("#ingresar");

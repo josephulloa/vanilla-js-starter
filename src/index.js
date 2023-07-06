@@ -5,9 +5,6 @@ const btn = document.querySelector(".btn");
 btn.addEventListener("click", validar);
 ingresar.addEventListener("keypress", addItem);
 
+let get = await getTasks();
 
-let get = await getTasks()
-
-let valores= JSON.stringify(get)
-
-
+let valores = JSON.stringify(get);

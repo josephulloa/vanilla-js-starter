@@ -17,21 +17,13 @@ export async function postData(task) {
 }
 
 export async function getData() {
-	const response = await fetch(
-		'http://localhost:3000/api/task/',
-		{
-			method: 'GET',
-			headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-			}
-		}
-	);
-	if (!response.ok) {
-		throw new Error(`HTTP error! status: ${response.status}`);
-	}
-	const data = await response.json();
-  return await data
+  try {
+    const response = await fetch("http://localhost:3000/api/task/");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function deleteData(id) {
@@ -49,23 +41,13 @@ export async function deleteData(id) {
   return await response.json();
 }
 
-
-
-// async function putData(
-//   url = "http://localhost:3000/api/task/<task_id>",
-//   data = {}
-// ) {
-//   const response = await fetch(url, {
-//     method: "PUT",
-//     mode: "cors",
-//     cache: "no-cache",
-//     credentials: "same-origin",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     redirect: "follow",
-//     referrerPolicy: "no-referrer",
-//     body: JSON.stringify(data),
-//   });
-//   return response.json();
-// }
+export async function updateData(id, task) {
+  const response = await fetch("http://localhost:3000/api/task/" + id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  });
+  return await response.json();
+}
