@@ -42,6 +42,9 @@ export async function deleteData(id) {
 }
 
 export async function updateData(id, task) {
+  console.log("====================================");
+  console.log(id, task);
+  console.log("====================================");
   const response = await fetch("http://localhost:3000/api/task/" + id, {
     method: "PUT",
     headers: {

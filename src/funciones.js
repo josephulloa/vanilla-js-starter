@@ -1,11 +1,14 @@
 import { postData, deleteData, getData, updateData } from "../src/API.js";
-
+export const ingresar = document.getElementById("ingresar");
+export const btn = document.getElementById("btn-ingresar");
 const ul = document.querySelector("#lista");
 const nada = document.querySelector(".vacio");
 let contador = document.querySelector("#contador");
 let datos = await getData();
 
 datos?.forEach((element) => {
+  nada.style.display = "none";
+  nada.classList.add("hide");
   let text = element.task;
   let li = document.createElement("li");
   li.classList.add("tarea");
@@ -13,16 +16,15 @@ datos?.forEach((element) => {
   p.textContent = text;
   li.id = element.id;
 
-  li.appendChild(check(element));
+  li.appendChild(check());
   li.appendChild(p);
   li.appendChild(botonBorrar());
   ul.appendChild(li);
 });
 
 //update task
-async function updateTask(id, isChecked) {
-  let checked = { checked: isChecked };
-  let check = await updateData(id, checked);
+export async function updateTask(id) {
+  console.log(this);
 }
 
 //INPUT VALUE //
@@ -36,6 +38,7 @@ export function validar() {
     addTask();
   }
 }
+
 //ADD TASK //
 export async function addTask() {
   let text = ingresar.value;
@@ -44,7 +47,7 @@ export async function addTask() {
   let p = document.createElement("p");
   p.textContent = text;
 
-  let task = { task: text, };
+  let task = { task: text, checked: false };
   let resultado = await postData(task);
   li.id = resultado.id;
 
@@ -62,16 +65,14 @@ export async function addTask() {
 //CHECK LIST CHECK DONE//
 function check(id) {
   let checkbox = document.createElement("input");
-  checkbox.checked= false
   checkbox.className = "check";
   checkbox.setAttribute("type", "checkbox");
   checkbox.addEventListener("click", function (e) {
     incrementarContador(e?.target?.checked);
-    updateTask(id, e?.target?.checked);
+    updateData(id, { checked: e?.target?.checked });
   });
   return checkbox;
 }
-
 //ERASER BUTTON //
 function botonBorrar() {
   const borrar = document.createElement("i");
@@ -84,7 +85,9 @@ function botonBorrar() {
     // const valido = item.querySelector(".check");
     if (valido.checked) {
       let cuenta = Number(contador.textContent);
-      let resta = cuenta - 1;
+
+      resta = cuenta;
+      resta = resta - 1;
       contador.innerHTML = resta;
     }
 
@@ -131,26 +134,3 @@ function emptyValue() {
   }
   return false;
 }
-
-// async function getTaks() {
-//  fetch("http://localhost:3000/api/task/")
-//  .then(function (response) {
-//  console.log(response)
-//  })
-
-// }
-
-// function obtenertareas() {
-//   obtenertareas()
-//     .then((task) => {
-//       listaTareas = task;
-//       console.log("exitoso");
-//     })
-//     .catch((error) => {
-//       console.log("error");
-//     });
-// }
-
-// run add task when load page
-
-export const ingresar = document.querySelector("#ingresar");
