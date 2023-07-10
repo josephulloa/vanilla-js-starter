@@ -1,6 +1,6 @@
-var express = require("express");
-var cors = require("cors");
-const { uuid } = require("uuidv4");
+import express from "express";
+import cors from "cors";
+import { uuid  } from "uuidv4";
 
 var app = express();
 app.use(express.json());
@@ -21,11 +21,12 @@ taskRouter
     return res.json(tasks);
   })
   .post(function (req, res) {
-    tasks.push({
+    const newTask = {
       ...req.body,
       id: uuid(),
-    });
-    return res.json(tasks);
+    };
+    tasks.push(newTask);
+    return res.json(newTask);
   });
 taskRouter.route("/:task_id")
   .get(function (req, res) {

@@ -86,8 +86,7 @@ function botonBorrar() {
     if (valido.checked) {
       let cuenta = Number(contador.textContent);
 
-      resta = cuenta;
-      resta = resta - 1;
+     let resta = cuenta -1;
       contador.innerHTML = resta;
     }
 
@@ -132,7 +131,5 @@ function emptyValue() {
       return true;
     }
   }
-
-  
   return false;
 }
